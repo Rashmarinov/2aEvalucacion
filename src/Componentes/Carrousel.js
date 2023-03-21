@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Slider from "react-slick";
 import Menu from "./Menus";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
 function Carrousel() {
   const [productos, setProductos] = useState([]);
+  const [currentImage, setCurrentImage] = useState(0);
 
   useEffect(() => {
-    fetch("https://dummyjson.com/products/")
+    fetch("https://dummyjson.com/products")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setProductos(data.products);
       })
       .catch((error) => {
@@ -19,27 +15,25 @@ function Carrousel() {
       });
   }, []);
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
+  const handlePrevImage = () => {
+    setCurrentImage((prevImage) => (prevImage === 0 ? productos.length - 1 : prevImage - 1));
+  };
+
+  const handleNextImage = () => {
+    setCurrentImage((prevImage) => (prevImage === productos.length - 1 ? 0 : prevImage + 1));
   };
 
   return (
     <div>
-    <Menu></Menu>
-      <h2>Productos</h2>
-      <Slider {...settings}>
-        {productos.map((producto) => (
-          <div key={producto.id}>
-            <img src={producto.thumbnail} alt={producto.title} />
-            <p>{producto.title}</p>
-            <p>${producto.price}</p>
-          </div>
-        ))}
-      </Slider>
+        <Menu></Menu>
+      <div className="carrousel-container">
+        <img src={productos[currentImage]?.thumbnail} alt={productos[currentImage]?.title} />
+
+      </div>
+      <div>       
+         <button onClick={handlePrevImage}>Anterior</button>
+        <button onClick={handleNextImage}>Siguiente</button>
+    </div>
     </div>
   );
 }
