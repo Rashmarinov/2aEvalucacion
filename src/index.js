@@ -1,13 +1,37 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Login from './Componentes/Login';
+import Producto from './Componentes/Producto';
+import Inicio from './Componentes/Inicio';
+import Carrousel from './Componentes/Carrousel';
+
+const browserRouter = createBrowserRouter([
+  {
+    path: '/',
+    element: <Inicio></Inicio>
+  },
+  {
+    path: '/login',
+    element: <Login></Login>
+  },
+  {
+    path: '/producto',
+    element: <Producto></Producto>
+  },
+  {
+    path: '/carrousel',
+    element: <Carrousel></Carrousel>
+  }
+])
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={browserRouter} />
   </React.StrictMode>
 );
 
